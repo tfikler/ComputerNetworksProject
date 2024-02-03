@@ -10,7 +10,7 @@ public class Main {
         
         HTTPRequest httpRequest = new HTTPRequest(requestHeader);
 
-        System.out.println("Type: " + httpRequest.getType());
+        System.out.println("Type: " + httpRequest.getRequestType());
         System.out.println("Requested Page: " + httpRequest.getRequestedPage());
         System.out.println("Is Image: " + httpRequest.isImage());
         System.out.println("Content Length: " + httpRequest.getContentLength());
