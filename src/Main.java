@@ -9,5 +9,13 @@ public class Main {
                                "User-Agent: Mozilla/5.0";
         
         HTTPRequest httpRequest = new HTTPRequest(requestHeader);
+
+        System.out.println("Type: " + httpRequest.getType());
+        System.out.println("Requested Page: " + httpRequest.getRequestedPage());
+        System.out.println("Is Image: " + httpRequest.isImage());
+        System.out.println("Content Length: " + httpRequest.getContentLength());
+        System.out.println("Referer: " + httpRequest.getReferer());
+        System.out.println("User Agent: " + httpRequest.getUserAgent());
+        System.out.println("Parameters: " + httpRequest.getParameters());
     }
 }
