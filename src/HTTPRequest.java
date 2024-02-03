@@ -45,7 +45,7 @@ public class HTTPRequest {
      {
       if (requestedPage.indexOf("?") != -1) {
             parameters = new HashMap<>();
-            String queryString = requestedPage.substring(requestedPage.indexOf("?") + 1,requestedPage.indexOf(" "));
+            String queryString = requestedPage.substring(requestedPage.indexOf("?") + 1);
             String[] pairs = queryString.split("&");
             for (String pair : pairs) {
             String[] keyValue = pair.split("=");
