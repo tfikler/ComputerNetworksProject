@@ -33,6 +33,7 @@ public class Server {
 
     private static class ClientHandler extends Thread {
         private final Client client;
+        private HTTPRequest hTTPRequest;
 
         public ClientHandler(Client client) {
             this.client = client;
@@ -42,9 +43,19 @@ public class Server {
             try {
                 BufferedReader in = new BufferedReader(new InputStreamReader(client.getInputStream()));
                 PrintWriter out = new PrintWriter(client.getOutputStream(), true);
-
             } catch (IOException e) {
                 e.printStackTrace();
+
+            String line;
+            String input="";
+            // Read lines until the end of input
+            while ((line = in.readLine()) != null) {
+                input=input+line;
+            }
+            hTTPRequest=new HTTPRequest(input);
+            outputStream.write("Hello from the server!".getBytes());
+
+
             } finally {
                 // Close the client and remove it from the set
                 clients.remove(client);
