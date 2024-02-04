@@ -1,10 +1,65 @@
 <!DOCTYPE html>
 <html>
-<body>
 
-<h1>My First Heading</h1>
+<head>
+    <title>Computer Networks 2023: Exercise 1</title>
+    <style>
+        @keyframes moveTitle {
+            0% {
+                transform: translate(-50%, -50%) rotate(0deg);
+            }
+            100% {
+                transform: translate(-50%, -50%) rotate(360deg);
+            }
+        }
+	header {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+	h1 {
+            color: blue;
+            animation: moveTitle 4s infinite;
+            position: absolute;
+            left: 50%;
+            top: 5%;
+            transform: translate(-50%, -50%);
+        }
+    </style>
+</head>
 
-<p>My first paragraph.</p>
-
+<body style="display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0;">
+    <div style="text-align: center;">
+        <h1 style="color: blue; animation: moveTitle 10s infinite;">Computer Networks 2023: Exercise 1</h1>
+        <h2 style="color: red;">Tomer Fikler</h2>
+        <div style="display: flex; justify-content: center;">
+            <table>
+                <tr>
+                    <td><img src="https://media.istockphoto.com/id/1301045569/photo/playing-poker-in-a-casino-holding-winning-royal-flush-hand-of-cards.jpg?s=612x612&w=0&k=20&c=y2NwOEEGy6MpwXLfu6rvuHm3ymf7sD0e44okKA0kAZ4=" alt="pokerimg" style="width: 300px; height: 300px; object-fit: cover;"></td>
+                    <td><img src="https://media.npr.org/assets/img/2023/07/24/gettyimages-1565639844-77a6567b6ac6c2ea8f4d3c590508689df8ce9cc3.jpg" alt="messiimg" style="width: 300px; height: 300px; object-fit: cover;"></td>
+                </tr>
+            </table>
+        </div>
+        <br>
+        <a href="https://moodle.runi.ac.il/2024/course/view.php?id=2401572" style="text-decoration: none; color: black;">Computer Networks Course Website</a><br>
+        <a href="https://www.youtube.com" style="text-decoration: none; color: black;">Favorite Website - Youtube</a><br>
+        <hr>
+	<hr>
+	<hr>
+        <form action="#" method="post">
+            <label for="sender">Sender:</label>
+            <input type="text" id="sender" name="sender"><br><br>
+            <label for="receiver">Receiver:</label>
+            <input type="text" id="receiver" name="receiver"><br><br>
+            <label for="subject">Subject:</label>
+            <input type="text" id="subject" name="subject"><br><br>
+            <label for="message">Message:</label><br>
+            <textarea id="message" name="message" rows="10" cols="50"></textarea><br><br>
+            <input type="submit" value="Submit">
+        </form>
+    </div>
 </body>
+
 </html>
