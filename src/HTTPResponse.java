@@ -9,36 +9,68 @@ public class HTTPResponse {
     String contentType;
     String statusCode;
     public HTTPResponse(HTTPRequest httpRequest) throws IOException {
-        if (httpRequest.getRequestType().equals("GET")) {
+        if (httpRequest.getRequestType().equals("GET")||httpRequest.getRequestType().equals("HEAD")||httpRequest.getRequestType().equals("POST")) {
             switch (httpRequest.getRequestedPage()) {
                 case "/" -> {
+                    try{
                     content = new String(Files.readAllBytes(Paths.get("src/index.html")));
                     contentLength = content.length();
-                    contentType = "text/html";
-                    statusCode = "200";
+                    contentType = httpRequest.getRequestType();
+                    statusCode = "200 OK";
+                    
+                     } catch (FileNotFoundException e) {
+                    ErrorHandler.handle404Error();
+                    content = ErrorHandler.getContent();
+                    contentType =httpRequest.getRequestType();
+                    contentLength = ErrorHandler.getContentLength();
+                    statusCode = ErrorHandler.getStatusCode();
+                     } catch (IOException e) {
+                    ErrorHandler.handle500Error();
+                    content = ErrorHandler.getContent();
+                    contentType = httpRequest.getRequestType();;
+                    contentLength = ErrorHandler.getContentLength();
+                    statusCode = ErrorHandler.getStatusCode();
+                     }
                 }
                 case "/example-resource" -> {
                     content = "<!DOCTYPE html><html><head><title>Example Resource</title></head><body><h1>This is an example resource</h1></body></html>";
                     contentLength = content.length();
-                    contentType = "text/html";
-                    statusCode = "200";
+                    contentType = httpRequest.getRequestType();
+                    statusCode = "200 OK";
                 }
                 case "/image.jpg" -> {
                     content = "image.jpg";
                     contentLength = content.length();
-                    contentType = "image/jpeg";
-                    statusCode = "200";
+                    contentType =httpRequest.getRequestType();
+                    statusCode = "200 OK";
                 }
                 default -> {
                     ErrorHandler.handle404Error();
                     content = ErrorHandler.getContent();
-                    contentType = "text/html";
+                    contentType = httpRequest.getRequestType();
                     contentLength = ErrorHandler.getContentLength();
                     statusCode = ErrorHandler.getStatusCode();
                 }
             }
-        } else {
-            ErrorHandler.handle500Error();
+            if (httpRequest.getRequestType().equals("HEAD")&&statusCode.equals("200 OK"))
+            {
+              content="";
+            }
+            if (httpRequest.getRequestType().equals("POST")&&statusCode.equals("200 OK"))
+            {
+              
+            }
+
+        } 
+        else if(httpRequest.getRequestType().equals("TRACE"))
+        {
+          content=httpRequest.getHTTPRequest();
+          contentLength = content.length();
+          contentType =httpRequest.getRequestType();
+          statusCode = "200 OK";
+        }
+        else {
+            ErrorHandler.handle501Error();
             content = ErrorHandler.getContent();
             contentLength = ErrorHandler.getContentLength();
             statusCode = ErrorHandler.getStatusCode();
@@ -46,8 +78,8 @@ public class HTTPResponse {
     }
 
     public void send(PrintWriter out) {
-        out.write("HTTP/1.1 " + statusCode + " OK\r\n");
-        System.out.println("HTTP/1.1 " + statusCode + " OK\r\n");
+        out.write("HTTP/1.1 " + statusCode + "\r\n");
+        System.out.println("HTTP/1.1 " + statusCode + "\r\n");
         out.write("Content-Type: " + contentType + "\r\n");
         System.out.println("Content-Type: " + contentType + "\r\n");
         out.write("Content-Length: " + contentLength + "\r\n\r\n");

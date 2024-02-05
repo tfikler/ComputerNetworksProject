@@ -58,6 +58,10 @@ public class HTTPRequest {
         }
     }
 
+    public String getHTTPRequest() {
+        return httpRequest;
+    }
+
     public String getRequestType() {
         return requestType;
     }
