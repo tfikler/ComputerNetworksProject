@@ -44,6 +44,34 @@ public class HTTPResponse {
                     contentType =httpRequest.getRequestType();
                     statusCode = "200 OK";
                 }
+                    case "/init_params.html" -> {
+                    try{
+                    StringBuilder sb = new StringBuilder();
+                    sb.append("src/init_params.html");
+                    for (String key : httpRequest.parameters.keySet()) {
+                       
+                    }
+                    content = new String(Files.readAllBytes(Paths.get(sb.toString())));
+                    contentLength = content.length();
+                    contentType =httpRequest.getRequestType();
+                    statusCode = "200 OK";
+                    }
+                    catch (FileNotFoundException e) {
+                    ErrorHandler.handle404Error();
+                    content = ErrorHandler.getContent();
+                    contentType =httpRequest.getRequestType();
+                    contentLength = ErrorHandler.getContentLength();
+                    statusCode = ErrorHandler.getStatusCode();
+                     } catch (IOException e) {
+                    ErrorHandler.handle500Error();
+                    content = ErrorHandler.getContent();
+                    contentType = httpRequest.getRequestType();;
+                    contentLength = ErrorHandler.getContentLength();
+                    statusCode = ErrorHandler.getStatusCode();
+                     }
+
+
+                }
                 default -> {
                     ErrorHandler.handle404Error();
                     content = ErrorHandler.getContent();
