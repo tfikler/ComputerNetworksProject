@@ -1,7 +1,7 @@
-import java.io.IOException;
+import java.io.*;
 import java.io.OutputStream;
-import java.io.OutputStream;
-import java.io.PrintWriter;
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 
 public class HTTPRequest {
@@ -10,9 +10,10 @@ public class HTTPRequest {
     private String requestedPage;
     private boolean isImage;
     private int contentLength;
+    private String requestBody;
     private String referer;
     private String userAgent;
-    private HashMap<String, String> parameters=new HashMap<>();;
+    private HashMap<String, String> parameters = new HashMap<>();;
 
     public HTTPRequest(String httpRequest) {
         this.httpRequest = httpRequest;
@@ -31,6 +32,12 @@ public class HTTPRequest {
             String queryString = requestedPage.substring(requestedPage.indexOf("?") + 1);
             parseTheParams(queryString);
             }
+        if (requestType.equals("POST")) {
+            requestBody = URLDecoder.decode(lines[lines.length - 1], StandardCharsets.UTF_8);
+            System.out.println("Request Body: " + requestBody);
+            parseTheParams(requestBody);
+        }
+
 
         for (String line : lines) {
             // Handling the 3rd line, getting the Length
@@ -46,25 +53,18 @@ public class HTTPRequest {
             else if (line.startsWith("User-Agent:")) {
                 userAgent = trim;
             }
-            else if (getRequestType().equals("POST")&&line.contains("="))
-            {
-              String[] keyValue = line.split("=");
-              if (keyValue.length == 2) {
-                    parameters.put(keyValue[0], keyValue[1]);
-              }
-            }
         }
     }
 
     public void parseTheParams(String queryString) {
-            String[] pairs = queryString.split("&");
-            for (String pair : pairs) {
-                String[] keyValue = pair.split("=");
-                if (keyValue.length == 2) {
-                    parameters.put(keyValue[0], keyValue[1]);
-                }
+        String[] pairs = queryString.split("&");
+        for (String pair : pairs) {
+            String[] keyValue = pair.split("=");
+            if (keyValue.length == 2) {
+                parameters.put(keyValue[0], keyValue[1]);
             }
         }
+    }
 
     public String getHTTPRequest() {
         return httpRequest;
@@ -96,13 +96,6 @@ public class HTTPRequest {
 
     public HashMap<String, String> getParameters() {
         return parameters;
-    }
-
-    // New method to get the path
-    public String getPath() {
-        // Extract the path from the requestedPage
-        int questionMarkIndex = requestedPage.indexOf("?");
-        return (questionMarkIndex != -1) ? requestedPage.substring(0, questionMarkIndex) : requestedPage;
     }
 
     public void handleRequest(OutputStream out) throws IOException {
