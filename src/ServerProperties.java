@@ -3,10 +3,10 @@ import java.io.IOException;
 import java.util.Properties;
 
 public class ServerProperties {
-    private final int port;
-    private final String root;
-    private final String defaultPage;
-    private final int maxThreads;
+    private static int port;
+    private static String root;
+    private static String defaultPage;
+    private static int maxThreads;
 
     public ServerProperties() {
         Properties properties = new Properties();
@@ -15,25 +15,25 @@ public class ServerProperties {
         } catch (IOException e) {
             throw new RuntimeException("Failed to load server.properties file");
         }
-        this.port = Integer.parseInt(properties.getProperty("port"));
-        this.root = properties.getProperty("root");
-        this.defaultPage = properties.getProperty("defaultPage");
-        this.maxThreads = Integer.parseInt(properties.getProperty("maxThreads"));
+        port = Integer.parseInt(properties.getProperty("port"));
+        root = properties.getProperty("root");
+        defaultPage = properties.getProperty("defaultPage");
+        maxThreads = Integer.parseInt(properties.getProperty("maxThreads"));
     }
 
-    public int getPort() {
+    public static int getPort() {
         return port;
     }
 
-    public String getRoot() {
+    public static String getRoot() {
         return root;
     }
 
-    public String getDefaultPage() {
+    public static String getDefaultPage() {
         return defaultPage;
     }
 
-    public int getMaxThreads() {
+    public static int getMaxThreads() {
         return maxThreads;
     }
 

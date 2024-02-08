@@ -6,15 +6,15 @@
   <component name="ChangeListManager">
     <list default="true" id="8d6c3d3b-fa2d-4a4b-8bd0-354df4b9eb04" name="Changes" comment="handling conflict">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.vs/ComputerNetworksProject/v16/.suo" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.vs/VSWorkspaceState.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.vs/slnx.sqlite" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/HTTPRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/HTTPRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config.ini" beforeDir="false" afterPath="$PROJECT_DIR$/config.ini" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/HTTPResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/HTTPResponse.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Server.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Server.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/init_params.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/params_info.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/params_info.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ServerProperties.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ServerProperties.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/bee.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/www/lab/html/bee.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/favicon.ico" beforeDir="false" afterPath="$PROJECT_DIR$/www/lab/html/favicon.ico" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/www/lab/html/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/params_info.html" beforeDir="false" afterPath="$PROJECT_DIR$/www/lab/html/params_info.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/sun.avif" beforeDir="false" afterPath="$PROJECT_DIR$/www/lab/html/sun.avif" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -52,7 +52,7 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "git-widget-placeholder": "tomer-branch",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "/Users/tomerfikler/Desktop/ComputerNetworks/FinalProject/src",
+    "last_opened_file_path": "/Users/tomerfikler/Desktop/ComputerNetworks/FinalProject/www/lab/html",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -63,6 +63,7 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/www/lab/html" />
       <recent name="$PROJECT_DIR$/src" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
@@ -111,7 +112,7 @@
       <workItem from="1706888548922" duration="4875000" />
       <workItem from="1707323275117" duration="373000" />
       <workItem from="1707323662351" duration="6214000" />
-      <workItem from="1707394875438" duration="20783000" />
+      <workItem from="1707394875438" duration="22291000" />
     </task>
     <task id="LOCAL-00001" summary="handling conflict">
       <option name="closed" value="true" />

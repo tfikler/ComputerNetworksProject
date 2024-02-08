@@ -8,8 +8,8 @@ import java.util.concurrent.ThreadPoolExecutor;
 
 public class Server {
     private static final ServerProperties properties = new ServerProperties();
-    private static final int PORT = properties.getPort();
-    private static final int MAX_THREADS = properties.getMaxThreads();
+    private static final int PORT = ServerProperties.getPort();
+    private static final int MAX_THREADS = ServerProperties.getMaxThreads();
     private static final ThreadPoolExecutor threadPool = (ThreadPoolExecutor) Executors.newFixedThreadPool(MAX_THREADS);
     private static final Set<Client> clients = new HashSet<>();
 

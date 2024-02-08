@@ -26,19 +26,17 @@ public class HTTPResponse {
         }
     }
 
-    private void handlePostRequest(HTTPRequest httpRequest) throws IOException {
-        byte[] newParamsFile = generateSecondPage(httpRequest.getParameters());
-//        content = Files.readAllBytes(Paths.get("src/params_info.html"));
-        content = newParamsFile;
+    private void handlePostRequest(HTTPRequest httpRequest){
+        content = generateParamsInfoPage(httpRequest.getParameters());
         contentLength = content.length;
         contentType = "text/html";
         statusCode = "200 OK";
     }
 
     private void handleGetRequest(HTTPRequest httpRequest) throws IOException {
-        if (httpRequest.getRequestedPage().equals("/") || httpRequest.getRequestedPage().equals("/index.html")) {
+        if (httpRequest.getRequestedPage().equals("/") || httpRequest.getRequestedPage().equals("/" + ServerProperties.getDefaultPage())) {
             try {
-                content = Files.readAllBytes(Paths.get("src/index.html"));
+                content = Files.readAllBytes(Paths.get(ServerProperties.getRoot() + ServerProperties.getDefaultPage()));
                 contentLength = content.length;
                 contentType = "text/html";
                 statusCode = "200 OK";
@@ -50,7 +48,7 @@ public class HTTPResponse {
                 statusCode = ErrorHandler.getStatusCode();
             }
         } else if (httpRequest.isImage()) {
-            content = Files.readAllBytes(Paths.get("src" + httpRequest.getRequestedPage()));
+            content = Files.readAllBytes(Paths.get(ServerProperties.getRoot() + httpRequest.getRequestedPage()));
             contentLength = content.length;
             if (httpRequest.getRequestedPage().endsWith(".ico")) {
                 contentType = "icon";
@@ -129,9 +127,9 @@ public class HTTPResponse {
 //        }
 //    }
 
-    private byte[] generateSecondPage(HashMap<String, String> params) {
+    private byte[] generateParamsInfoPage(HashMap<String, String> params) {
         // Load the base HTML from your existing file
-        File htmlContent = new File("src/params_info.html");
+        File htmlContent = new File(ServerProperties.getRoot() + "params_info.html");
         StringBuilder paramsHTML = new StringBuilder();
         try {
             if (htmlContent.exists()) {
@@ -158,20 +156,6 @@ public class HTTPResponse {
         return htmlContent.toString().getBytes();
     }
 
-    private String generateDynamicContent(HashMap<String, String> params) {
-        // Generate the dynamic content based on the parsed parameters
-        StringBuilder dynamicContentBuilder = new StringBuilder();
-
-        // Populate table rows with parsed parameters
-        for (HashMap.Entry<String, String> entry : params.entrySet()) {
-            dynamicContentBuilder.append("<tr>");
-            dynamicContentBuilder.append("<td>").append(entry.getKey()).append("</td>");
-            dynamicContentBuilder.append("<td>").append(entry.getValue()).append("</td>");
-            dynamicContentBuilder.append("</tr>");
-        }
-
-        return dynamicContentBuilder.toString();
-    }
     public void send(OutputStream out) throws IOException {
         out.write(("HTTP/1.1 " + statusCode + "\r\n").getBytes());
         System.out.println("HTTP/1.1 " + statusCode + "\r\n");
