@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dynamic Table from URL Parameters</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 80%;
+            margin: 20px auto;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            overflow: hidden;
+            animation: slideIn 1s forwards;
+            background-color: #fff;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(-100%);
+            }
+
+            to {
+                transform: translateX(0%);
+            }
+        }
+
+        th, td {
+            padding: 15px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #4285f4;
+            color: #fff;
+            text-transform: uppercase;
+        }
+
+        td {
+            border-top: 1px solid #e0e0e0;
+        }
+
+        tbody tr:nth-child(odd) {
+            background-color: #f9f9f9;
+        }
+
+        tbody tr:hover {
+            background-color: #f0f0f0;
+        }
+
+        .btn-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            background-color: #4285f4;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin-right: 10px;
+        }
+
+            .btn:hover {
+                background-color: #3367d6;
+            }
+    </style>
+</head>
+<body>
+    <table id="myTable">
+        <thead>
+            <tr>
+                <th>Parameter</th>
+                <th>Value</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Table body will be generated dynamically -->
+        </tbody>
+    </table>
+
+    <div class="btn-container">
+        <button class="btn" onclick="resetTable()">Reset Table</button>
+        <button class="btn" onclick="changeTableColor()">Change Color</button>
+    </div>
+
+    <script>
+        // Function to get URL parameters
+        function getURLParams() {
+            var searchParams = new URLSearchParams(window.location.search);
+            var params = {};
+            for (let param of searchParams) {
+                if (params.hasOwnProperty(param[0])) {
+                    if (!Array.isArray(params[param[0]])) {
+                        params[param[0]] = [params[param[0]]];
+                    }
+                    params[param[0]].push(param[1]);
+                } else {
+                    params[param[0]] = param[1];
+                }
+            }
+            return params;
+        }
+
+        // Function to save parameters to local storage
+        function saveParamsToLocalStorage(params) {
+            localStorage.setItem('params', JSON.stringify(params));
+        }
+
+        // Function to retrieve parameters from local storage
+        function getParamsFromLocalStorage() {
+            var paramsString = localStorage.getItem('params');
+            return JSON.parse(paramsString) || {};
+        }
+
+        // Function to create table rows dynamically based on parameters
+        function generateTableFromParams(params) {
+            var tbody = document.querySelector("#myTable tbody");
+
+            // Clear existing table rows
+            tbody.innerHTML = "";
+
+            // Generate rows
+            for (var param in params) {
+                if (Array.isArray(params[param])) {
+                    params[param].forEach(value => {
+                        var row = "<tr>" +
+                            "<td>" + param + "</td>" +
+                            "<td>" + value + "</td>" +
+                            "</tr>";
+                        tbody.innerHTML += row;
+                    });
+                } else {
+                    var row = "<tr>" +
+                        "<td>" + param + "</td>" +
+                        "<td>" + params[param] + "</td>" +
+                        "</tr>";
+                    tbody.innerHTML += row;
+                }
+            }
+        }
+
+        // Function to generate table from URL parameters or local storage
+        function generateTable() {
+            var localStorageParams = getParamsFromLocalStorage();
+            var urlParams = getURLParams();
+
+            // Merge URL parameters into local storage parameters
+            for (var param in urlParams) {
+                if (localStorageParams.hasOwnProperty(param)) {
+                    if (!Array.isArray(localStorageParams[param])) {
+                        localStorageParams[param] = [localStorageParams[param]];
+                    }
+                    localStorageParams[param].push(urlParams[param]);
+                } else {
+                    localStorageParams[param] = urlParams[param];
+                }
+            }
+
+            // Save updated parameters to local storage
+            saveParamsToLocalStorage(localStorageParams);
+
+            // Generate table based on merged parameters
+            generateTableFromParams(localStorageParams);
+        }
+
+        // Call the function to generate the table
+        generateTable();
+
+        // Function to reset the table
+        function resetTable() {
+            localStorage.removeItem('params'); // Clear local storage
+            location.reload(); // Reload the page to reset the table
+        }
+
+// Function to change the color of rows and parameter values simultaneously
+function changeTableColor() {
+    var colors = ['#4285f4', '#db4437', '#f4b400', '#0f9d58']; // Define colors
+    var randomColor = colors[Math.floor(Math.random() * colors.length)]; // Pick a random color
+
+    // Apply color to the rows
+    var rows = document.querySelectorAll("#myTable tbody tr"); // Get all table rows
+    rows.forEach(function(row) {
+        row.style.backgroundColor = randomColor; // Apply color to the row
+    });
+
+    // Apply color to the parameter value cells
+    var valueCells = document.querySelectorAll("#myTable tbody td:nth-child(2)"); // Get all cells in the second column
+    valueCells.forEach(function(cell) {
+        cell.style.backgroundColor = randomColor; // Apply color to the cell
+    });
+}
+
+
+    </script>
+
+</body>
+</html>
+

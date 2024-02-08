@@ -1,6 +1,7 @@
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Arrays;
@@ -44,14 +45,55 @@ public class Server {
 
         public void run() {
             try {
-                BufferedReader in = new BufferedReader(new InputStreamReader(client.getInputStream()));
-                PrintWriter out = new PrintWriter(client.getOutputStream(), true);
-                String line;
+               BufferedReader in = new BufferedReader(new InputStreamReader(client.getInputStream()));
+//                PrintWriter out = new PrintWriter(client.getOutputStream(), true);
+                OutputStream out = client.getOutputStream();
+//                String line;
                 StringBuilder input= new StringBuilder();
-                // Read lines until the end of input
-                while ((line = in.readLine()) != null && !line.isEmpty()) {
-                    input.append(line).append("\r\n");
+//                int emptyLineCount = 0;
+//                // Read lines until the end of input
+////                while ((line = in.readLine()) != null && !line.isEmpty()) {
+////                    input.append(line).append("\r\n");
+////                }
+//                while ((line = in.readLine()) != null) {
+//                    input.append(line).append("\r\n");
+//                    System.out.println(line);
+//                    if (line.isEmpty()) {
+//                        emptyLineCount++;
+//                        if (emptyLineCount == 1) {
+//                            break;
+//                        }
+//                    } else {
+//                        emptyLineCount = 0;
+//                    }
+//                }
+                String requestLine = in.readLine();
+                System.out.println("Request Line: " + requestLine);
+                input.append(requestLine).append("\r\n");
+
+                // Read request headers
+                String headerLine;
+                while ((headerLine = in.readLine()) != null && !headerLine.isEmpty()) {
+                    System.out.println("Header: " + headerLine);
+                    input.append(headerLine).append("\r\n");
                 }
+
+                // Read request body if it exists
+                StringBuilder requestBody = new StringBuilder();
+                while (in.ready()) {
+                    char[] buffer = new char[1024];
+                    int bytesRead = in.read(buffer, 0, buffer.length);
+                    if (bytesRead > 0) {
+                        requestBody.append(buffer, 0, bytesRead);
+                    }
+                }
+                if (!requestBody.isEmpty()) {
+                    System.out.println("Request Body:");
+                    System.out.println(requestBody.toString());
+                    input.append(requestBody);
+                }
+
+                System.out.println(input);
                 httpRequest = new HTTPRequest(input.toString());
                 httpRequest.handleRequest(out);
 

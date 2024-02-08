@@ -1,4 +1,5 @@
 import java.io.IOException;
+import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.util.HashMap;
 
@@ -24,7 +25,7 @@ public class HTTPRequest {
         requestType = input.substring(0, input.indexOf(' '));
         input = input.substring(input.indexOf(' ') + 1);
         requestedPage = input.substring(0, input.indexOf(' '));
-        isImage = requestedPage.matches(".+\\.(jpg|bmp|gif|jpeg|tiff|psd|svg|raw|ico|heic)$");
+        isImage = requestedPage.matches(".+\\.(jpg|bmp|gif|jpeg|tiff|psd|svg|raw|ico|png|avif)$");
         parseTheParams(requestedPage);
 
         for (String line : lines) {
@@ -97,8 +98,12 @@ public class HTTPRequest {
         return (questionMarkIndex != -1) ? requestedPage.substring(0, questionMarkIndex) : requestedPage;
     }
 
-    public void handleRequest(PrintWriter out) throws IOException {
+    public void handleRequest(OutputStream out) throws IOException {
         HTTPResponse httpResponse = new HTTPResponse(this);
         httpResponse.send(out);
+    }
+
+    public String getRequestBody() {
+        return httpRequest.substring(httpRequest.length() - contentLength);
     }
 }
