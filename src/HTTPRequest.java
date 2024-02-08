@@ -1,5 +1,6 @@
 import java.io.IOException;
 import java.io.OutputStream;
+import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.util.HashMap;
 
@@ -11,7 +12,7 @@ public class HTTPRequest {
     private int contentLength;
     private String referer;
     private String userAgent;
-    private HashMap<String, String> parameters;
+    private HashMap<String, String> parameters=new HashMap<>();;
 
     public HTTPRequest(String httpRequest) {
         this.httpRequest = httpRequest;
@@ -25,8 +26,11 @@ public class HTTPRequest {
         requestType = input.substring(0, input.indexOf(' '));
         input = input.substring(input.indexOf(' ') + 1);
         requestedPage = input.substring(0, input.indexOf(' '));
-        isImage = requestedPage.matches(".+\\.(jpg|bmp|gif|jpeg|tiff|psd|svg|raw|ico|png|avif)$");
-        parseTheParams(requestedPage);
+        isImage = requestedPage.matches(".+\\.(jpg|bmp|gif|jpeg|tiff|psd|svg|raw|ico|heic|avif|png)$");
+        if (requestedPage.contains("?")) {
+            String queryString = requestedPage.substring(requestedPage.indexOf("?") + 1);
+            parseTheParams(queryString);
+            }
 
         for (String line : lines) {
             // Handling the 3rd line, getting the Length
@@ -42,13 +46,17 @@ public class HTTPRequest {
             else if (line.startsWith("User-Agent:")) {
                 userAgent = trim;
             }
+            else if (getRequestType().equals("POST")&&line.contains("="))
+            {
+              String[] keyValue = line.split("=");
+              if (keyValue.length == 2) {
+                    parameters.put(keyValue[0], keyValue[1]);
+              }
+            }
         }
     }
 
-    public void parseTheParams(String requestedPage) {
-        if (requestedPage.contains("?")) {
-            parameters = new HashMap<>();
-            String queryString = requestedPage.substring(requestedPage.indexOf("?") + 1);
+    public void parseTheParams(String queryString) {
             String[] pairs = queryString.split("&");
             for (String pair : pairs) {
                 String[] keyValue = pair.split("=");
@@ -57,7 +65,6 @@ public class HTTPRequest {
                 }
             }
         }
-    }
 
     public String getHTTPRequest() {
         return httpRequest;
@@ -101,9 +108,5 @@ public class HTTPRequest {
     public void handleRequest(OutputStream out) throws IOException {
         HTTPResponse httpResponse = new HTTPResponse(this);
         httpResponse.send(out);
-    }
-
-    public String getRequestBody() {
-        return httpRequest.substring(httpRequest.length() - contentLength);
     }
 }
