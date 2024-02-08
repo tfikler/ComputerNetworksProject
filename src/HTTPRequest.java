@@ -100,6 +100,10 @@ public class HTTPRequest {
 
     public void handleRequest(OutputStream out) throws IOException {
         HTTPResponse httpResponse = new HTTPResponse(this);
-        httpResponse.send(out);
+        if (requestType.equals("HEAD")) {
+            httpResponse.sendHead(out);
+        } else {
+            httpResponse.send(out);
+        }
     }
 }
