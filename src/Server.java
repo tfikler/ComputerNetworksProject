@@ -1,10 +1,6 @@
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.Executors;
@@ -12,8 +8,8 @@ import java.util.concurrent.ThreadPoolExecutor;
 
 public class Server {
     private static final ServerProperties properties = new ServerProperties();
-    private static final int PORT = properties.getPort();
-    private static final int MAX_THREADS = properties.getMaxThreads();
+    private static final int PORT = ServerProperties.getPort();
+    private static final int MAX_THREADS = ServerProperties.getMaxThreads();
     private static final ThreadPoolExecutor threadPool = (ThreadPoolExecutor) Executors.newFixedThreadPool(MAX_THREADS);
     private static final Set<Client> clients = new HashSet<>();
 
@@ -46,27 +42,8 @@ public class Server {
         public void run() {
             try {
                BufferedReader in = new BufferedReader(new InputStreamReader(client.getInputStream()));
-//                PrintWriter out = new PrintWriter(client.getOutputStream(), true);
                 OutputStream out = client.getOutputStream();
-//                String line;
                 StringBuilder input= new StringBuilder();
-//                int emptyLineCount = 0;
-//                // Read lines until the end of input
-////                while ((line = in.readLine()) != null && !line.isEmpty()) {
-////                    input.append(line).append("\r\n");
-////                }
-//                while ((line = in.readLine()) != null) {
-//                    input.append(line).append("\r\n");
-//                    System.out.println(line);
-//                    if (line.isEmpty()) {
-//                        emptyLineCount++;
-//                        if (emptyLineCount == 1) {
-//                            break;
-//                        }
-//                    } else {
-//                        emptyLineCount = 0;
-//                    }
-//                }
                 String requestLine = in.readLine();
                 System.out.println("Request Line: " + requestLine);
                 input.append(requestLine).append("\r\n");
@@ -87,7 +64,7 @@ public class Server {
                         requestBody.append(buffer, 0, bytesRead);
                     }
                 }
-                if (!requestBody.isEmpty()) {
+                if (requestBody.length() > 0) {
                     System.out.println("Request Body:");
                     System.out.println(requestBody.toString());
                     input.append(requestBody);
