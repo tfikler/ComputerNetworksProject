@@ -20,7 +20,7 @@ public class HTTPResponse {
         }
         else if (httpRequest.getRequestType().equals("TRACE"))
         {
-//            handleTraceRequest(httpRequest);
+            handleTraceRequest(httpRequest);
         }
         else
         {
@@ -76,6 +76,13 @@ public class HTTPResponse {
             contentType = ErrorHandler.getContentType();
             statusCode = ErrorHandler.getStatusCode();
         }
+    }
+
+    private void handleTraceRequest(HTTPRequest httpRequest){
+        content = httpRequest.getHTTPRequest().getBytes();;
+        contentLength = content.length;
+        contentType = "application/octet-stream";
+        statusCode = "200 OK";
     }
 
     private byte[] generateParamsInfoPage(HashMap<String, String> params) {
