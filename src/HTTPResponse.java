@@ -9,6 +9,7 @@ public class HTTPResponse {
     int contentLength;
     String contentType;
     String statusCode;
+    int chunk=1024;
     public HTTPResponse(HTTPRequest httpRequest) throws IOException {
         if ((httpRequest.getRequestType().equals("GET")) || (httpRequest.getRequestType().equals("HEAD")))
         {
@@ -129,6 +130,28 @@ public class HTTPResponse {
             out.write(("HTTP/1.1 " + statusCode + "\r\n").getBytes());
             out.write(("Content-Type: " + contentType + "\r\n").getBytes());
             out.write(("Content-Length: " + contentLength + "\r\n\r\n").getBytes());
+            out.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    public void sendChunked(OutputStream out) throws IOException {
+
+        try {
+            out.write(("HTTP/1.1 " + statusCode + "\r\n").getBytes());
+            System.out.println("HTTP/1.1 " + statusCode + "\r\n");
+            out.write(("Content-Type: " + contentType + "\r\n").getBytes());
+            System.out.println("Content-Type: " + contentType + "\r\n");
+            out.flush();
+            for (int i = 0; i < content.length; i += chunk) {
+                int size = Math.min(content.length - i,chunk);
+                String hexSize = Integer.toHexString(size) + "\r\n";
+                out.write(hexSize.getBytes());
+                out.write(content, i, size);
+                out.write("\r\n".getBytes());
+                out.flush();
+            }
+            out.write("0\r\n\r\n".getBytes());
             out.flush();
         } catch (IOException e) {
             e.printStackTrace();

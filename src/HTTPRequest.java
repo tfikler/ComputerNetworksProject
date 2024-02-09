@@ -9,6 +9,7 @@ public class HTTPRequest {
     private String requestType;
     private String requestedPage;
     private boolean isImage;
+    private boolean isChunked=false;
     private int contentLength;
     private String requestBody;
     private String referer;
@@ -53,6 +54,12 @@ public class HTTPRequest {
             else if (line.startsWith("User-Agent:")) {
                 userAgent = trim;
             }
+            else if (line.startsWith("chunked:")) {
+                if (trim.equals("yes"))
+                {
+                    isChunked=true;
+                }
+            }
         }
     }
 
@@ -82,6 +89,10 @@ public class HTTPRequest {
         return isImage;
     }
 
+    public boolean isChunked() {
+        return isChunked;
+    }
+
     public int getContentLength() {
         return contentLength;
     }
@@ -103,7 +114,15 @@ public class HTTPRequest {
         if (requestType.equals("HEAD")) {
             httpResponse.sendHead(out);
         } else {
-            httpResponse.send(out);
+            if (isChunked)
+            {
+                httpResponse.sendChunked(out);
+            }
+            else
+            {
+                httpResponse.send(out);
+            }
+
         }
     }
 }
