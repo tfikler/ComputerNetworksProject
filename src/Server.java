@@ -19,7 +19,7 @@ public class Server {
             System.out.println("Server is running on port " + PORT);
             while (true) {
                 Socket clientSocket = serverSocket.accept();
-                if (threadPool.getActiveCount() <= MAX_THREADS) {
+                if (threadPool.getActiveCount() < MAX_THREADS) {
                     Client client = new Client(clientSocket);
                     clients.add(client);
                     threadPool.submit(new ClientHandler(client));
@@ -45,13 +45,10 @@ public class Server {
                 OutputStream out = client.getOutputStream();
                 StringBuilder input= new StringBuilder();
                 String requestLine = in.readLine();
-                System.out.println("Request Line: " + requestLine);
                 input.append(requestLine).append("\r\n");
-
                 // Read request headers
                 String headerLine;
                 while ((headerLine = in.readLine()) != null && !headerLine.isEmpty()) {
-                    System.out.println("Header: " + headerLine);
                     input.append(headerLine).append("\r\n");
                 }
 
@@ -65,18 +62,14 @@ public class Server {
                     }
                 }
                 if (requestBody.length() > 0) {
-                    System.out.println("Request Body:");
-                    System.out.println(requestBody.toString());
                     input.append(requestBody);
                 }
-
                 System.out.println(input);
                 httpRequest = new HTTPRequest(input.toString());
                 httpRequest.handleRequest(out);
 
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-
+            } catch (Exception e) {
+                e.printStackTrace();
             } finally {
                 // Close the client and remove it from the set
                 clients.remove(client);

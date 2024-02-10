@@ -5,7 +5,7 @@ public class ErrorHandler {
     private static String statusCode;
     private static int contentLength;
     private static String content;
-    private static String contentType;
+    private static String contentType = "text/html";
 
     public static void handle400Error() throws IOException {
         statusCode = "400 Bad Request";
@@ -23,7 +23,6 @@ public class ErrorHandler {
                 </html>
                 """;
         contentLength = content.length();
-        contentType = "text/html";
     }
     public static void handle404Error() throws IOException {
         statusCode = "404 Not Found";
@@ -41,7 +40,6 @@ public class ErrorHandler {
                 </html>
                 """;
         contentLength = content.length();
-        contentType = "text/html";
     }
 
     public static void handle500Error() {
@@ -69,10 +67,10 @@ public class ErrorHandler {
                 <!DOCTYPE html>
                 <html>
                 <head>
-                <title>404 Page not found</title>
+                <title>501 Not Implemented</title>
                 </head>
                 <body>
-                <h1>Page not found</h1>
+                <h1></h1>
                 <p>The server encountered an unexpected condition that prevented it from fulfilling the request.</p>
                 <p>To return to the main page please click here: <a href="http://localhost:8080">Main page</a></p>
                 </body>

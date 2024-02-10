@@ -16,9 +16,13 @@ public class HTTPRequest {
     private String userAgent;
     private HashMap<String, String> parameters = new HashMap<>();;
 
-    public HTTPRequest(String httpRequest) {
+    public HTTPRequest(String httpRequest) throws IOException {
         this.httpRequest = httpRequest;
-        parseTheRequest();
+        try {
+            parseTheRequest();
+        } catch (Exception e) {
+            System.out.println("Error parsing the request: " + e.getMessage());
+        }
     }
 
     public void parseTheRequest() {
@@ -35,11 +39,8 @@ public class HTTPRequest {
             }
         if (requestType.equals("POST")) {
             requestBody = URLDecoder.decode(lines[lines.length - 1], StandardCharsets.UTF_8);
-            System.out.println("Request Body: " + requestBody);
             parseTheParams(requestBody);
         }
-
-
         for (String line : lines) {
             // Handling the 3rd line, getting the Length
             final String trim = line.substring(line.indexOf(' ') + 1).trim();
@@ -89,36 +90,20 @@ public class HTTPRequest {
         return isImage;
     }
 
-    public boolean isChunked() {
-        return isChunked;
-    }
-
-    public int getContentLength() {
-        return contentLength;
-    }
-
-    public String getReferer() {
-        return referer;
-    }
-
-    public String getUserAgent() {
-        return userAgent;
-    }
-
     public HashMap<String, String> getParameters() {
         return parameters;
     }
 
     public void handleRequest(OutputStream out) throws IOException {
         HTTPResponse httpResponse = new HTTPResponse(this);
-        if (requestType.equals("HEAD")) {
+        if  (requestType != null && requestType.equals("HEAD") && httpResponse.statusCode.equals("200 OK")) {
             httpResponse.sendHead(out);
         }
-        else if (requestType.equals("OPTIONS")&&httpResponse.statusCode.equals("200 OK"))
+        else if (requestType != null && requestType.equals("OPTIONS") && httpResponse.statusCode.equals("200 OK"))
             {
                 httpResponse.sendOptions(out);
             }
-         else {
+        else {
             if (isChunked)
             {
                 httpResponse.sendChunked(out);

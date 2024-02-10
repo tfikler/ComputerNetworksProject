@@ -13,7 +13,7 @@ public class ServerProperties {
         try {
             properties.load(new FileInputStream("config.ini"));
         } catch (IOException e) {
-            throw new RuntimeException("Failed to load server.properties file");
+            throw new RuntimeException("We couldn't find the configuration file. We are shutting down the server.");
         }
         port = Integer.parseInt(properties.getProperty("port"));
         root = properties.getProperty("root");

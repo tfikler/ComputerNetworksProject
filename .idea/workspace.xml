@@ -9,6 +9,9 @@
       <change beforePath="$PROJECT_DIR$/src/ErrorHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ErrorHandler.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/HTTPRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/HTTPRequest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/HTTPResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/HTTPResponse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Server.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Server.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ServerProperties.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ServerProperties.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/www/lab/html/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/www/lab/html/index.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -44,7 +47,7 @@
     "Application.Server.executor": "Run",
     "DefaultHtmlFileTemplate": "HTML File",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "git-widget-placeholder": "tomer-branch",
+    "git-widget-placeholder": "main",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "/Users/tomerfikler/Desktop/ComputerNetworks/FinalProject/www/lab/html",
     "node.js.detected.package.eslint": "true",
