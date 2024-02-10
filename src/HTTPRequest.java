@@ -113,7 +113,12 @@ public class HTTPRequest {
         HTTPResponse httpResponse = new HTTPResponse(this);
         if (requestType.equals("HEAD")) {
             httpResponse.sendHead(out);
-        } else {
+        }
+        else if (requestType.equals("OPTIONS")&&httpResponse.statusCode.equals("200 OK"))
+            {
+                httpResponse.sendOptions(out);
+            }
+         else {
             if (isChunked)
             {
                 httpResponse.sendChunked(out);

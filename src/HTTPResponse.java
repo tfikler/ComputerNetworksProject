@@ -23,9 +23,36 @@ public class HTTPResponse {
         {
             handleTraceRequest(httpRequest);
         }
+        else if (httpRequest.getRequestType().equals("OPTIONS"))
+        {
+            handleOptionsRequest(httpRequest);
+        }
         else
         {
             ErrorHandler.handle501Error();
+            content = ErrorHandler.getContent().getBytes();
+            contentLength = ErrorHandler.getContentLength();
+            contentType = ErrorHandler.getContentType();
+            statusCode = ErrorHandler.getStatusCode();
+        }
+    }
+
+    private void handleOptionsRequest(HTTPRequest httpRequest) throws IOException {
+        try {
+            if (httpRequest.getRequestedPage().equals("/") || httpRequest.getRequestedPage().equals("/" + ServerProperties.getDefaultPage())||httpRequest.getRequestedPage().contains("/params_info.html")||(httpRequest.isImage()&&Files.exists(Paths.get(ServerProperties.getRoot() + httpRequest.getRequestedPage())))) {
+                contentType = "application/octet-stream";
+                statusCode = "200 OK";
+            }
+            else {
+                ErrorHandler.handle400Error();
+                content = ErrorHandler.getContent().getBytes();
+                contentLength = ErrorHandler.getContentLength();
+                contentType = ErrorHandler.getContentType();
+                statusCode = ErrorHandler.getStatusCode();
+
+            }
+        } catch (IOException e) {
+            ErrorHandler.handle404Error();
             content = ErrorHandler.getContent().getBytes();
             contentLength = ErrorHandler.getContentLength();
             contentType = ErrorHandler.getContentType();
@@ -123,6 +150,19 @@ public class HTTPResponse {
         System.out.println("Content-Length: " + contentLength + "\r\n\r\n");
         out.write(content);
         out.flush();
+    }
+
+    public void sendOptions(OutputStream out) {
+        try {
+            out.write(("HTTP/1.1 " + statusCode + "\r\n").getBytes());
+            System.out.println("HTTP/1.1 " + statusCode + "\r\n");
+            out.write(("Content-Type: " + contentType + "\r\n").getBytes());
+            System.out.println("Content-Type: " + contentType + "\r\n");
+            out.write(("Allow: OPTIONS, GET, HEAD, POST"+ "\r\n\r\n").getBytes());
+            out.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void sendHead(OutputStream out) {
