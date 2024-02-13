@@ -33,3 +33,12 @@ By encapsulating response logic within this class, the program achieves modulari
 
 ErrorHandler:
 The ErrorHandler class centrally manages HTTP error responses, generating HTML content for various error codes (e.g., 400, 404) and ensuring a smooth user experience.
+
+
+The design chosen for our server implementation prioritizes scalability, modularity, and robustness to ensure efficient handling of concurrent client connections and HTTP requests. 
+At its core, the server employs a multi-threaded architecture facilitated by a thread pool executor, enabling it to handle multiple client connections simultaneously without overwhelming system resources. 
+Each client connection is processed by a separate ClientHandler thread, which reads the HTTP request, parses it using the HTTPRequest class, and generates an appropriate response. 
+This design ensures that the server can effectively manage varying loads and respond promptly to client requests. 
+Additionally, the server's modular structure allows for easy extension and maintenance, with separate classes responsible for handling properties, HTTP requests, and error responses. 
+Overall, our design emphasizes flexibility, efficiency, and reliability, ensuring optimal performance in serving HTTP requests in a networked environment.
+
