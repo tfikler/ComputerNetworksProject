@@ -1,5 +1,3 @@
 #!/bin/bash
 
-# Run the GroupChat program
-cd src
-java Server
+java -cp ./src Server .
