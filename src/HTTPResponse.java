@@ -70,11 +70,35 @@ public class HTTPResponse {
         }
     }
 
-    private void handlePostRequest(HTTPRequest httpRequest){
-        contentType = "text/html";
-        statusCode = "200 OK";
-        content = generateParamsInfoPage(httpRequest.getParameters());
-        contentLength = content.length;
+    private void handlePostRequest(HTTPRequest httpRequest) throws IOException {
+        try {
+            contentType = "text/html";
+            statusCode = "200 OK";
+            if (httpRequest.getRequestedPage().equals("/params_info.html")) {
+                content = generateParamsInfoPage(httpRequest.getParameters());
+                contentLength = content.length;
+            }
+            else if (httpRequest.getRequestedPage().equals("/")) {
+                content = Files.readAllBytes(Paths.get(ServerProperties.getRoot() + ServerProperties.getDefaultPage()));
+                contentLength = content.length;
+            } else if (Files.exists(Paths.get(ServerProperties.getRoot() + httpRequest.getRequestedPage()))) {
+                content = Files.readAllBytes(Paths.get(ServerProperties.getRoot() + httpRequest.getRequestedPage()));
+                contentLength = content.length;
+            } else {
+                ErrorHandler.handle404Error();
+                content = ErrorHandler.getContent().getBytes();
+                contentType = ErrorHandler.getContentType();
+                statusCode = ErrorHandler.getStatusCode();
+                contentLength = content.length;
+            }
+        }
+        catch (IOException e) {
+            ErrorHandler.handle500Error();
+            content = ErrorHandler.getContent().getBytes();
+            contentLength = ErrorHandler.getContentLength();
+            contentType = ErrorHandler.getContentType();
+            statusCode = ErrorHandler.getStatusCode();
+        }
     }
 
     private void handleGetAndHeadRequest(HTTPRequest httpRequest) throws IOException {
@@ -106,7 +130,7 @@ public class HTTPResponse {
                 contentLength = content.length;
             }
             else {
-                ErrorHandler.handle400Error();
+                ErrorHandler.handle404Error();
                 content = ErrorHandler.getContent().getBytes();
                 contentLength = ErrorHandler.getContentLength();
                 contentType = ErrorHandler.getContentType();
@@ -162,6 +186,7 @@ public class HTTPResponse {
 
 
     public void send(OutputStream out) throws IOException {
+        System.out.println();
         out.write(("HTTP/1.1 " + statusCode + "\r\n").getBytes());
         System.out.print("HTTP/1.1 " + statusCode + "\r\n");
         out.write(("Content-Type: " + contentType + "\r\n").getBytes());
@@ -174,6 +199,7 @@ public class HTTPResponse {
 
     public void sendOptions(OutputStream out) {
         try {
+            System.out.println();
             out.write(("HTTP/1.1 " + statusCode + "\r\n").getBytes());
             System.out.print("HTTP/1.1 " + statusCode + "\r\n");
             out.write(("Content-Type: " + contentType + "\r\n").getBytes());
@@ -191,6 +217,7 @@ public class HTTPResponse {
 
     public void sendHead(OutputStream out) {
         try {
+            System.out.println();
             System.out.print("HTTP/1.1 " + statusCode + "\r\n");
             out.write(("HTTP/1.1 " + statusCode + "\r\n").getBytes());
             System.out.print("Content-Type: " + contentType + "\r\n");
@@ -208,6 +235,7 @@ public class HTTPResponse {
     }
     public void sendChunked(OutputStream out) throws IOException {
         try {
+            System.out.println();
             out.write(("HTTP/1.1 " + statusCode + "\r\n").getBytes());
             System.out.print("HTTP/1.1 " + statusCode + "\r\n");
             out.write(("Content-Type: " + contentType + "\r\n").getBytes());

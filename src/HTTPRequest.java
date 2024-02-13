@@ -21,7 +21,7 @@ public class HTTPRequest {
         try {
             parseTheRequest();
         } catch (Exception e) {
-            System.out.println("Error parsing the request: " + httpRequest);
+
         }
     }
 

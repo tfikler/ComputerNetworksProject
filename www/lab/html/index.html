@@ -14,13 +14,28 @@
 	h1 {
             color: blue;
             top: 5%;
+            animation: moveRightLeft 3s infinite;
         }
+    @keyframes moveRightLeft {
+        0% {
+            transform: translateX(0);
+        }
+        50% {
+            transform: translateX(50px);
+        }
+        100% {
+            transform: translateX(0);
+        }
+    }
+    h2 {
+        animation: moveRightLeft 3s infinite;
+    }
     </style>
 </head>
 
 <body style="display: inline; justify-content: center; align-items: center; height: 100vh; margin: 0;">
     <div style="text-align: center;">
-        <h1 style="color: blue; ">Computer Networks 2023</h1>
+        <h1 style="color: blue; animation-play-state: running">Computer Networks 2023</h1>
         <h2 style="color: red; ">Tomer Fikler -- Bar Jakobovitz</h2>
         <div style="display: inline-grid; justify-content: center;">
             <table>

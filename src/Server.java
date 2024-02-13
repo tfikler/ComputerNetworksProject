@@ -64,9 +64,11 @@ public class Server {
                 if (requestBody.length() > 0) {
                     input.append(requestBody);
                 }
-                System.out.println(input);
-                httpRequest = new HTTPRequest(input.toString());
-                httpRequest.handleRequest(out);
+                if (input.length() > 0 && !input.toString().equals("null\r\n")) {
+                    System.out.println(input);
+                    httpRequest = new HTTPRequest(input.toString());
+                    httpRequest.handleRequest(out);
+                }
 
             } catch (Exception e) {
                 e.printStackTrace();

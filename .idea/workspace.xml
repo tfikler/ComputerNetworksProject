@@ -6,8 +6,9 @@
   <component name="ChangeListManager">
     <list default="true" id="8d6c3d3b-fa2d-4a4b-8bd0-354df4b9eb04" name="Changes" comment="handling conflict">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ErrorHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ErrorHandler.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/HTTPRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/HTTPRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/HTTPResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/HTTPResponse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Server.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Server.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/www/lab/html/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/www/lab/html/index.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -109,6 +110,7 @@
       <workItem from="1707394875438" duration="28679000" />
       <workItem from="1707664202490" duration="1561000" />
       <workItem from="1707761917279" duration="115000" />
+      <workItem from="1707814881460" duration="3545000" />
     </task>
     <task id="LOCAL-00001" summary="handling conflict">
       <option name="closed" value="true" />
