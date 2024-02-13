@@ -1,0 +1,35 @@
+Classes
+
+Client:
+The Client class serves as a fundamental component in this network application, facilitating communication between clients and the server. 
+It establishes a socket connection to the server, allowing clients to send messages and receive responses. 
+With methods for retrieving server details such as IP address and port, as well as for managing input and output streams, the Client class enables seamless interaction with the server-side functionality.
+
+Server:
+The Server class is the backbone of the program, responsible for managing incoming client connections and processing HTTP requests in a multi-threaded environment. 
+It initializes server properties, such as port number and maximum threads, and establishes a server socket to listen for client connections. 
+Upon accepting a connection, it delegates request handling to separate threads using a thread pool executor. 
+The ClientHandler class reads the client's HTTP request, parses it, generates an appropriate response using the HTTPRequest class, and sends it back to the client. 
+This README emphasizes the pivotal role of the Server class in enabling the program to function as an HTTP server, facilitating communication between clients and the server-side functionality.
+
+ServerProperties:
+The ServerProperties class is responsible for reading server configuration settings from a properties file named "config.ini" and providing access to these settings throughout the program. 
+It initializes static variables for storing port number, root directory path, default page filename, and maximum number of threads.
+Upon instantiation, it reads the properties from the configuration file and assigns them to the corresponding variables.
+The class also provides static getter methods to retrieve these configuration settings.
+By centralizing the server configuration in this class, the program gains flexibility and ease of maintenance, allowing users to customize server settings by modifying the configuration file.
+
+HTTPRequest:
+The HTTPRequest class plays a crucial role in handling incoming HTTP requests within the program.
+Upon instantiation with a raw HTTP request string, it parses and extracts essential information such as request type, requested page, parameters, content length, referer, and user agent.
+It also identifies whether the requested resource is an image file. The class further provides methods to retrieve parsed request details and to handle the request by generating an appropriate HTTP response.
+By encapsulating the logic for request parsing and response handling, the HTTPRequest class simplifies the implementation of server-side functionality, ensuring efficient communication between clients and the server.
+
+HTTPResponse:
+The HTTPResponse class manages the creation and transmission of HTTP responses based on incoming requests. 
+It handles various request types such as GET, HEAD, POST, TRACE, and OPTIONS, generating appropriate responses accordingly. 
+The class contains methods to handle each type of request, including retrieving requested resources, generating dynamic content, and setting response headers. Additionally, it implements functionality to handle chunked responses for efficient data transmission. 
+By encapsulating response logic within this class, the program achieves modularity and extensibility in handling HTTP communication between the server and clients.
+
+ErrorHandler:
+The ErrorHandler class centrally manages HTTP error responses, generating HTML content for various error codes (e.g., 400, 404) and ensuring a smooth user experience.
