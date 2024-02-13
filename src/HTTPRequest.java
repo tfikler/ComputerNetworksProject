@@ -21,7 +21,7 @@ public class HTTPRequest {
         try {
             parseTheRequest();
         } catch (Exception e) {
-            System.out.println("Error parsing the request: " + e.getMessage());
+            System.out.println("Error parsing the request: " + httpRequest);
         }
     }
 
@@ -104,11 +104,11 @@ public class HTTPRequest {
                 httpResponse.sendOptions(out);
             }
         else {
-            if (isChunked)
+            if (requestType != null && isChunked)
             {
                 httpResponse.sendChunked(out);
             }
-            else
+            else if (requestType != null)
             {
                 httpResponse.send(out);
             }

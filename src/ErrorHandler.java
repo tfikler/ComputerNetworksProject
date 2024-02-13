@@ -18,7 +18,7 @@ public class ErrorHandler {
                 <body>
                 <h1>Bad Request</h1>
                 <p>Your browser sent a request that this server could not understand.</p>
-                <p>To return to the main page please click here: <a href="http://localhost:8080">Main page</a></p>
+                <p>To return to the main page please click here: <a href="http://localhost:8080/">Main page</a></p>
                 </body>
                 </html>
                 """;
@@ -35,7 +35,7 @@ public class ErrorHandler {
                 <body>
                 <h1>Page not found</h1>
                 <p>The server encountered an unexpected condition that prevented it from fulfilling the request.</p>
-                <p>To return to the main page please click here: <a href="http://localhost:8080">Main page</a></p>
+                <p>To return to the main page please click here: <a href="http://localhost:8080/">Main page</a></p>
                 </body>
                 </html>
                 """;
@@ -53,7 +53,7 @@ public class ErrorHandler {
                 <body>
                 <h1>Internal Server Error</h1>
                 <p>The server encountered an unexpected condition that prevented it from fulfilling the request.</p>
-                <p>To return to the main page please click here: <a href="http://localhost:8080">Main page</a></p>
+                <p>To return to the main page please click here: <a href="http://localhost:8080/">Main page</a></p>
                 </body>
                 </html>
                 """;
@@ -72,7 +72,7 @@ public class ErrorHandler {
                 <body>
                 <h1></h1>
                 <p>The server encountered an unexpected condition that prevented it from fulfilling the request.</p>
-                <p>To return to the main page please click here: <a href="http://localhost:8080">Main page</a></p>
+                <p>To return to the main page please click here: <a href="http://localhost:8080/">Main page</a></p>
                 </body>
                 </html>
                 """;
