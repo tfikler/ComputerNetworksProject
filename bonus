@@ -1,0 +1,11 @@
+Bonus Implementation Details - OPTIONS operation
+We implemented the OPTIONS operation:
+The client can ask from the server which operations he can do on a specific file
+and get it as the header "allow".
+example:
+Request:
+OPTIONS /index.html HTTP/1.1
+Response:
+HTTP/1.1 200 OK
+Content-Type: application/octet-stream
+Allow: OPTIONS, GET, HEAD, POST
