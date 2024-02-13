@@ -8,8 +8,10 @@ public class HTTPRequest {
     private String httpRequest;
     private String requestType;
     private String requestedPage;
+    private String version;
     private boolean isImage;
     private boolean isChunked=false;
+    private boolean validVersion;
     private int contentLength;
     private String requestBody;
     private String referer;
@@ -25,13 +27,17 @@ public class HTTPRequest {
         }
     }
 
-    public void parseTheRequest() {
+    public void parseTheRequest() throws Exception {
         String[] lines = this.httpRequest.split("\n");
         String input = lines[0];
         // Handling the 1st line, getting the type and page
         requestType = input.substring(0, input.indexOf(' '));
         input = input.substring(input.indexOf(' ') + 1);
         requestedPage = input.substring(0, input.indexOf(' '));
+        input = input.substring(input.indexOf(' ') + 1);
+        version = input.substring(0,input.indexOf('\r'));
+        System.out.println(version);
+        validVersion =version.equals("HTTP/1.1")||version.equals("HTTP/1.0");
         isImage = requestedPage.matches(".+\\.(jpg|bmp|gif|jpeg|tiff|psd|svg|raw|ico|heic|avif|png)$");
         if (requestedPage.contains("?")) {
             String queryString = requestedPage.substring(requestedPage.indexOf("?") + 1);
@@ -88,6 +94,10 @@ public class HTTPRequest {
 
     public boolean isImage() {
         return isImage;
+    }
+
+    public boolean isValidVersion() {
+        return validVersion;
     }
 
     public HashMap<String, String> getParameters() {

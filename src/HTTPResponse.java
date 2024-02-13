@@ -12,6 +12,7 @@ public class HTTPResponse {
     final int chunk=1024;
     public HTTPResponse(HTTPRequest httpRequest) throws IOException {
         try{
+            if (httpRequest.isValidVersion()){
             if ((httpRequest.getRequestType().equals("GET")) || (httpRequest.getRequestType().equals("HEAD")))
             {
                 handleGetAndHeadRequest(httpRequest);
@@ -28,6 +29,14 @@ public class HTTPResponse {
             {
                 handleOptionsRequest(httpRequest);
             }
+            else
+            {
+                ErrorHandler.handle501Error();
+                content = ErrorHandler.getContent().getBytes();
+                contentLength = ErrorHandler.getContentLength();
+                contentType = ErrorHandler.getContentType();
+                statusCode = ErrorHandler.getStatusCode();
+            }}
             else
             {
                 ErrorHandler.handle501Error();

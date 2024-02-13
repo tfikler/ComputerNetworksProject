@@ -12,7 +12,7 @@ public class ServerProperties {
         Properties properties = new Properties();
         try {
             System.out.println("current dir = " + System.getProperty("user.dir"));
-            properties.load(new FileInputStream("../config.ini"));
+            properties.load(new FileInputStream("config.ini"));
         } catch (IOException e) {
             throw new RuntimeException("We couldn't find the configuration file. We are shutting down the server.");
         }
